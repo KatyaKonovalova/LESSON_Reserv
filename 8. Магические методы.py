@@ -11,8 +11,9 @@ class Matrix:
             a = []
             for i in range(len(self.__matrix)):
                 a.append([0] * len(self.__matrix[0]))
-                print(a)
-                for j in range(len(self.__matrix[0])):
+                # print(a)
+                for j in range(len(self.__matrix[i])):
+                    # print('#', j)
                     a[i][j] = self.__matrix[i][j] * other
             return Matrix(a)
         raise TypeError('Умножение возможно только на число')
@@ -68,3 +69,4 @@ try:
 except TypeError:
     print('Произошла ошибка типов данных')
 # print(c())
+# print(c.count(2))
