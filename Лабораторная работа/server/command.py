@@ -1,7 +1,138 @@
-class AddCommand:
+from organization import *
+
+
+# Надо будет создать по одной переменной в классе Фасада для каждого класса
+# Чтобы потом была возможность через эти переменный вызвать нужную функцию класса
+# В классе Фасада создать новые методы, в которых по какому-то признаку будут объеденины методы предыдущих классов
+
+"""Что можно объединить?"""
+
+# 1. Help, Info, Show
+# 2. AddElement, UpdateID, Save
+# 3. RemoveByID,
+# 4. MinByFullName, RemoveGreater
+
+
+class Help:
+    # вывести справку по доступным командам
+    @staticmethod
+    def execute(*args):
+        print('Здесь будет справка')
+
+
+class Info:
+    # вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
+    @staticmethod
+    def execute(*args):
+        print(f'Дата инициализации: {Organization.initial_date()}\n'
+              f'Количество элементов: {len(Organization.objects())}')
+
+
+class Show:
+    # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
+    pass
+
+
+class AddElement:
+    # добавить новый элемент в коллекцию
+    attributes = ['name', 'description', 'organization']
+
+    @staticmethod
+    def execute(*args):
+        pass
+
+
+class UpdateID:
+    # обновить значение элемента коллекции, id которого равен заданному
+    pass
+
+
+class RemoveByID:
+    # удалить элемент из коллекции по его id
+    pass
+
+
+class Clear:
+    # очистить коллекцию
+    pass
+
+
+class Save:
+    # сохранить коллекцию в файл
+    pass
+
+
+class ExecuteScriptFileName:
+    # считать и исполнить скрипт из указанного файла.
+    # В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
+    pass
+
+
+class Exit:
+    # завершить программу (без сохранения в файл)
+    pass
+
+
+class Head:
+    # вывести первый элемент коллекции
+    pass
+
+
+class RemoveGreater:
+    # удалить из коллекции все элементы, превышающие заданный
+    pass
+
+
+class History:
+    # вывести последние 14 команд (без их аргументов)
+    pass
+
+
+class MinByFullName:
+    #  вывести любой объект из коллекции, значение поля fullName которого является минимальным
+    pass
+
+
+class PrintFieldDescendingAnnualTurnover:
+    # вывести значения поля annualTurnover всех элементов в порядке убывания
+    pass
+
+
+class PrintFieldDescendingPostalAddress:
+    # вывести значения поля postalAddress всех элементов в порядке убывания
+    pass
+
+
+class SimpleCommand:
+    __commands = {'help': Help,
+                  'info': Info,
+                  'show': Show,}
+
+    @staticmethod
     def execute(self, *args):
         pass
 
 
+class CompositeCommand:
+    commands = {'add': AddElement,}
+
+    def __init__(self, name):
+        self.__command = CompositeCommand.commands[name]
+
+    def __read(self):
+        return 1, 2, 3  # TODO: исправить с учетом понимания, какие аргументы требуются для этой команды
+
+    def execute(self):
+        args = CompositeCommand.__read()
+        self.__command(*args)
+
+
 class Command:
-    pass
+    def __init__(self, name):
+        if name in CompositeCommand.commands:
+            self.__command = CompositeCommand(name)
+        else:
+            self.__command = SimpleCommand(name)
+
+    def execute(self, *args):
+        self.__command.execute(*args)

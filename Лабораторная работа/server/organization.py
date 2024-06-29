@@ -1,4 +1,5 @@
 import datetime
+import time
 
 
 class Coordinates:
@@ -30,9 +31,13 @@ class OrganizationType:
 class Organization:
     __id = 1
     __objects = []
+    __initial_date = time.time()
 
+    # Не понимаю, как работает присвоение id.
+    # Хочу разобрать последовательность действий. Почему и как пересохраняется значение.
     def __init__(self, name: str, coordinates: Coordinates, creation_date: datetime, annual_turnover: float,
-                 full_name: str, employees_count: int, type: OrganizationType, postal_address: Address):
+                 full_name: str, employees_count: int, type: OrganizationType, postal_address: Address
+                 ):
         self.id = Organization.__id
         Organization.__id += 1
         self.name = name
@@ -44,3 +49,11 @@ class Organization:
         self.type = type
         self.postal_address = postal_address
         Organization.__objects.append(self)
+
+    @staticmethod
+    def objects():
+        return Organization.__objects
+
+    @staticmethod
+    def initial_date():
+        return Organization.__initial_date
