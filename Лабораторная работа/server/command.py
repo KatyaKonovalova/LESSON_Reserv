@@ -54,16 +54,28 @@ class RemoveByID:
     # удалить элемент из коллекции по его id
     # найти элемент по id и удалить его из списка
 
-    def __init__(self, *args):
-        self.id = id
+    # def __init__(self, *args):
+    #     self.id = args[0]
+
+    # def execute(self):
+    #     print('аргумент', self.id)
+    #     print(Organization.objects())
+    #     for elem in Organization.objects():
+    #         if elem.id == self.id:
+    #             Organization.objects().pop(elem.id - 1)
+    #         print(Organization.objects())
 
     @staticmethod
     def execute(*args):
+        id = int(args[0])
+        # print('id', id)
+        # print('аргумент', *args)
         print(Organization.objects())
+        # print('объект', Organization.objects()[id])
         for elem in Organization.objects():
             if elem.id == id:
                 Organization.objects().pop(elem.id - 1)
-            print(Organization.objects())
+        print(Organization.objects())
 
 
 class Clear:
@@ -119,17 +131,18 @@ class PrintFieldDescendingPostalAddress:
 
 
 class SimpleCommand:
-    __commands = {'help': Help,
-                  'info': Info,
-                  'show': Show,
-                  'clear': Clear,
-                  'exit': Exit}
+    commands = {'help': Help,
+                'info': Info,
+                'show': Show,
+                'clear': Clear,
+                'exit': Exit}
 
     def __init__(self, name):
-        self.__command = SimpleCommand.__commands[name]
+        # print('3', name)
+        self.command = SimpleCommand.commands[name]
 
     def execute(self):
-        self.__command.execute()
+        self.command.execute()
 
 
 class CompositeCommand:
@@ -137,23 +150,33 @@ class CompositeCommand:
                 'remove': RemoveByID, }
 
     def __init__(self, name):
-        self.__command = CompositeCommand.commands[name]
+        self.command = CompositeCommand.commands[name]
 
-    def __read(self):
-        return 1, 2, 3  # TODO: исправить с учетом понимания, какие аргументы требуются для этой команды
+    # def __read(self):
+    #     return 1, 2, 3  # TODO: исправить с учетом понимания, какие аргументы требуются для этой команды
 
-    def execute(self):
-        args = CompositeCommand.__read(self)
-        return self.__command(*args)
+    def execute(self, *args):
+        # print('передача', *args)
+        self.command.execute(*args)
+        # args = CompositeCommand.__read(self)
+        # return self.__command(*args)
 
 
 class Command:
     def __init__(self, name):
         if name in CompositeCommand.commands:
-            self.__command = CompositeCommand(name)
+            self.__command = CompositeCommand
         else:
-            self.__command = SimpleCommand(name)
+            self.__command = SimpleCommand
+
+    # # Работает SimpleCommand
+    # def execute(self, *args):
+    #     print(*args[1:])
+    #     self.__command(*args[0]).execute(*args[1:])
+
+    # Работает CompositeCommand и SimpleCommand
 
     def execute(self, *args):
-        print(*args)
-        self.__command.execute(*args)
+        # print('*', *args[0][1:])
+        # print('args[0]', args[0][0])
+        self.__command(args[0][0]).execute(*args[0][1:])
