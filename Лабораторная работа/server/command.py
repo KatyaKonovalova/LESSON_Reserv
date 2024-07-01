@@ -5,13 +5,6 @@ from organization import *
 # Чтобы потом была возможность через эти переменный вызвать нужную функцию класса
 # В классе Фасада создать новые методы, в которых по какому-то признаку будут объеденины методы предыдущих классов
 
-"""Что можно объединить?"""
-
-# 1. Help, Info, Show
-# 2. AddElement, UpdateID, Save
-# 3. RemoveByID,
-# 4. MinByFullName, RemoveGreater
-
 
 class Help:
     # вывести справку по доступным командам
@@ -30,12 +23,21 @@ class Info:
 
 class Show:
     # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
-    pass
+
+    @staticmethod
+    def execute(*args):
+        for elem in Organization.objects():
+            print(elem.name)
 
 
 class AddElement:
     # добавить новый элемент в коллекцию
-    attributes = ['name', 'description', 'organization']
+    # attributes = ['name', 'description', 'organization']
+
+    # чтобы добавить новый элемент в коллекцию надо создать объект класса Organization
+
+    def new_object(*args):
+        new_object = Organization(*args)
 
     @staticmethod
     def execute(*args):
@@ -44,12 +46,24 @@ class AddElement:
 
 class UpdateID:
     # обновить значение элемента коллекции, id которого равен заданному
+    # по id достать найти элемент и изменить значение характеристики
     pass
 
 
 class RemoveByID:
     # удалить элемент из коллекции по его id
-    pass
+    # найти элемент по id и удалить его из списка
+
+    def __init__(self, *args):
+        self.id = id
+
+    @staticmethod
+    def execute(*args):
+        print(Organization.objects())
+        for elem in Organization.objects():
+            if elem.id == id:
+                Organization.objects().pop(elem.id - 1)
+            print(Organization.objects())
 
 
 class Clear:
@@ -90,6 +104,7 @@ class History:
 
 class MinByFullName:
     #  вывести любой объект из коллекции, значение поля fullName которого является минимальным
+    # min(len(...[full_name]
     pass
 
 
@@ -106,15 +121,20 @@ class PrintFieldDescendingPostalAddress:
 class SimpleCommand:
     __commands = {'help': Help,
                   'info': Info,
-                  'show': Show,}
+                  'show': Show,
+                  'clear': Clear,
+                  'exit': Exit}
 
-    @staticmethod
-    def execute(self, *args):
-        pass
+    def __init__(self, name):
+        self.__command = SimpleCommand.__commands[name]
+
+    def execute(self):
+        self.__command.execute()
 
 
 class CompositeCommand:
-    commands = {'add': AddElement,}
+    commands = {'add': AddElement,
+                'remove': RemoveByID, }
 
     def __init__(self, name):
         self.__command = CompositeCommand.commands[name]
@@ -123,8 +143,8 @@ class CompositeCommand:
         return 1, 2, 3  # TODO: исправить с учетом понимания, какие аргументы требуются для этой команды
 
     def execute(self):
-        args = CompositeCommand.__read()
-        self.__command(*args)
+        args = CompositeCommand.__read(self)
+        return self.__command(*args)
 
 
 class Command:
@@ -135,4 +155,5 @@ class Command:
             self.__command = SimpleCommand(name)
 
     def execute(self, *args):
+        print(*args)
         self.__command.execute(*args)

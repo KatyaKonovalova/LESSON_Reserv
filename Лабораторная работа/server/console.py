@@ -8,6 +8,7 @@ class Console:
         while True:
             print('Введите команду: ')
             read_command = input().split()
+            print(read_command)
             if read_command[0] == 'exit':
                 break
             Command(read_command[0]).execute(*read_command[1:])

@@ -35,19 +35,20 @@ class Organization:
 
     # Не понимаю, как работает присвоение id.
     # Хочу разобрать последовательность действий. Почему и как пересохраняется значение.
-    def __init__(self, name: str, coordinates: Coordinates, creation_date: datetime, annual_turnover: float,
-                 full_name: str, employees_count: int, type: OrganizationType, postal_address: Address
-                 ):
+    # def __init__(self, name: str, coordinates: Coordinates, creation_date: datetime, annual_turnover: float,
+    #              full_name: str, employees_count: int, type: OrganizationType, postal_address: Address
+    #              ):
+    def __init__(self, name: str):
         self.id = Organization.__id
         Organization.__id += 1
         self.name = name
-        self.coordinates = coordinates
-        self.creation_date = creation_date
-        self.annual_turnover = annual_turnover
-        self.full_name = full_name
-        self.employees_count = employees_count
-        self.type = type
-        self.postal_address = postal_address
+        # self.coordinates = coordinates
+        # self.creation_date = creation_date
+        # self.annual_turnover = annual_turnover
+        # self.full_name = full_name
+        # self.employees_count = employees_count
+        # self.type = type
+        # self.postal_address = postal_address
         Organization.__objects.append(self)
 
     @staticmethod
@@ -57,3 +58,23 @@ class Organization:
     @staticmethod
     def initial_date():
         return Organization.__initial_date
+
+    @staticmethod
+    def id():
+        return Organization.__id
+
+
+# class CollectionManager:
+#     def __init__(self):
+#         self.__collection = Organization.objects()
+#
+#     def elem(self):
+#         return str(self.__collection)
+
+
+
+org1 = Organization('1')
+org2 = Organization('2')
+# org3 = Organization('3')
+# print(org1.id, org2.id)
+# print(Organization.objects())
