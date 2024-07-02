@@ -69,8 +69,8 @@ class RemoveByID:
 
     @staticmethod
     def execute(*args):
-        print('args[0]', args[0][0])
-        id = int(args[0][0])
+        # print('args[0]', *args[0])
+        id = int(*args[0])
         # print('id', id)
         # print('аргумент', *args)
         print(Organization.objects())
@@ -109,6 +109,7 @@ class ExecuteScriptFileName:
 
 
 class Exit:
+    # НЕ УВЕРЕНА ЧТО ЗДЕСЬ НУЖНА ЭТА КОМНАДА, ТАК КАК EXIT ОСУЩЕСТВЛЯЕТСЯ В command.py
     # завершить программу (без сохранения в файл)
     @staticmethod
     def execute(*args):
@@ -126,10 +127,22 @@ class Head:
 
 class RemoveGreater:
     # удалить из коллекции все элементы, превышающие заданный
-    # два параметра 1. тот по которому будут сравнивать, 2. его значение
     @staticmethod
     def execute(*args):
-        print(*args)
+        print(*args, type(*args))
+        parameter = args[0][0]
+        value = int(args[0][1])
+        for elem in Organization.objects():
+            if isinstance(elem.parameter, str):
+                if len(elem.parameter) > value:
+                    Organization.objects().remove(elem)
+            elif isinstance(elem.parameter, int):
+                if elem.parameter > value:
+                    Organization.objects().remove(elem)
+
+
+        # print(*args[args.find(",") + 1:])
+        # print(*args[0][0])
     pass
 
 
@@ -213,7 +226,7 @@ class Command:
         # print('args[0]', args[0][0])
         # self.__command(args[0][0]).execute(*args[0][1:])
         # self.__command(self.name).execute(*args[0][1:])
-        if args[0] == []:
+        if args[0] == ['']:
             self.__command(self.name).execute()
         else:
             self.__command(self.name).execute(*args)

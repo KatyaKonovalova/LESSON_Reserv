@@ -9,7 +9,9 @@ class Console:
             # print('Введите команду: ')
             # read_command = input().split()
             read_command = input('Введите команду:\n')
-            read_parameter = input('Введите нужные параметры:\n').split()
+            if read_command == 'exit':
+                break
+            read_parameter = input('Введите нужные параметры:\n').split(', ')
             # print(read_command)
             # print('/', read_command[1:])
             # if read_command[0] == 'exit':
