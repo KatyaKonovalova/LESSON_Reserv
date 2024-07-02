@@ -156,7 +156,7 @@ class PrintFieldDescendingAnnualTurnover:
         an_tur = []
         for elem in Organization.objects():
             an_tur.append(elem.annual_turnover)
-        # ПОЧЕМУ НЕ СРАБОТАЛ МЕТОД SORT? ВЫВОДИЛ NONE
+        # ПОЧЕМУ НЕ СРАБОТАЛ МЕТОД SORT? ВЫВОДИТ NONE
         result = sorted(an_tur, reverse=True)
         print(result)
 
@@ -176,11 +176,6 @@ class PrintFieldDescendingPostalAddress:
         print(res)
         # ПОПРОБОВАТЬ СДЕЛАТЬ СЛОВАРЬ
 
-# names = ["Jessica", "Ben", "Carl", "Jackie", "Wendy"]
-#
-# print("Unsorted: ", names)
-# names.sort(key=len)
-# print("Sorted: ", names)
 
 class SimpleCommand:
     commands = {'help': Help,
@@ -211,14 +206,9 @@ class CompositeCommand:
         # print('4', name)
         self.command = CompositeCommand.commands[name]
 
-    # def __read(self):
-    #     return 1, 2, 3  # TODO: исправить с учетом понимания, какие аргументы требуются для этой команды
-
     def execute(self, *args):
         # print('передача', *args)
         self.command.execute(*args)
-        # args = CompositeCommand.__read(self)
-        # return self.__command(*args)
 
 
 class Command:
@@ -230,22 +220,11 @@ class Command:
         else:
             self.__command = SimpleCommand
 
-    # # Работает SimpleCommand
-    # def execute(self, *args):
-    #     print(*args[1:])
-    #     self.__command(*args[0]).execute(*args[1:])
-
-    # Работает CompositeCommand и SimpleCommand
-
     def execute(self, *args):
         # print(*args)
         # print('*', *args)
         # print('args[0]', args[0][0])
-        # self.__command(args[0][0]).execute(*args[0][1:])
-        # self.__command(self.name).execute(*args[0][1:])
         if args[0] == ['']:
             self.__command(self.name).execute()
         else:
             self.__command(self.name).execute(*args)
-
-        # Command(read_command[read_command.find(",") + 1:]).execute(read_command)
