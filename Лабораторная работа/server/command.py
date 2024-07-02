@@ -12,7 +12,8 @@ class Help:
     # вывести справку по доступным командам
     @staticmethod
     def execute(*args):
-        print('Здесь будет справка')
+        with open('help_doc.txt', 'r', encoding='utf-8') as file:
+            print(file.read())
 
 
 class Info:
