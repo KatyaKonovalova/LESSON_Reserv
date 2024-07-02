@@ -149,14 +149,15 @@ class History:
 
 class MinByFullName:
     #  вывести любой объект из коллекции, значение поля fullName которого является минимальным
-    # МНЕ НЕ НРАВИТСЯ ЗАДАВАТЬ ЗНАЧЕНИЕ value=100, ХОТЕЛОСЬ БЫ СРАВНИВАТЬ НАПРИМЕР С ПЕРВЫМ ОБЪЕКТОМ
     @staticmethod
     def execute(*args):
-        value = 100
+        value = len(Organization.objects()[0].full_name)
+        # print(value)
         for elem in Organization.objects():
             if len(elem.full_name) < value:
                 value = len(elem.full_name)
-                print(elem.name)
+        print(elem.id)
+
 
 
 class PrintFieldDescendingAnnualTurnover:

@@ -38,13 +38,13 @@ class Organization:
     # def __init__(self, name: str, coordinates: Coordinates, creation_date: datetime, annual_turnover: float,
     #              full_name: str, employees_count: int, type: OrganizationType, postal_address: Address
     #              ):
-    def __init__(self, name: str, full_name: str, employees_count: int):
+    def __init__(self, name: str, full_name: str, employees_count: int, annual_turnover: float):
         self.id = Organization.__id
         Organization.__id += 1
         self.name = name
         # self.coordinates = coordinates
         # self.creation_date = creation_date
-        # self.annual_turnover = annual_turnover
+        self.annual_turnover = annual_turnover
         self.full_name = full_name
         self.employees_count = employees_count
         # self.type = type
@@ -72,10 +72,10 @@ class Organization:
 #         return str(self.__collection)
 
 
-org1 = Organization('1', 'Завод', 100)
-org2 = Organization('2', 'Кондитерская', 5)
-org3 = Organization('3', 'Столовая', 10)
-org4 = Organization('4', 'Ресторанный дворик', 50)
+org1 = Organization('1', 'Машиностроительный завод', 100, 1.1)
+org2 = Organization('2', 'Кондитерская', 5, 2.2)
+org3 = Organization('3', 'Столовая', 10, 3.3)
+org4 = Organization('4', 'Ресторанный дворик', 50, 4.4)
 # print(org1.id, org2.id)
 # print(Organization.objects())
 
