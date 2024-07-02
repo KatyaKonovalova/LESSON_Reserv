@@ -1,5 +1,5 @@
 import datetime
-import time
+from datetime import datetime
 
 
 class Coordinates:
@@ -31,7 +31,7 @@ class OrganizationType:
 class Organization:
     __id = 1
     __objects = []
-    __initial_date = time.time()
+    __initial_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # Не понимаю, как работает присвоение id.
     # Хочу разобрать последовательность действий. Почему и как пересохраняется значение.
@@ -72,9 +72,16 @@ class Organization:
 #         return str(self.__collection)
 
 
-
 org1 = Organization('1')
 org2 = Organization('2')
-# org3 = Organization('3')
+org3 = Organization('3')
+org4 = Organization('4')
 # print(org1.id, org2.id)
 # print(Organization.objects())
+
+# s = "remove by id, 1, j, 8"
+# print(s[s.find(",") + 1:])
+#
+# a = 'remove by id, 1, 2'
+# print(','.join(a.split(',')[:-1]))
+

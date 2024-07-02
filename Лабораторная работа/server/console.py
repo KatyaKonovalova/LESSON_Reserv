@@ -6,10 +6,15 @@ class Console:
     @staticmethod
     def start():
         while True:
-            print('Введите команду: ')
-            read_command = input().split()
+            # print('Введите команду: ')
+            # read_command = input().split()
+            read_command = input('Введите команду:\n')
+            read_parameter = input('Введите нужные параметры:\n').split()
             # print(read_command)
             # print('/', read_command[1:])
-            if read_command[0] == 'exit':
-                break
-            Command(read_command[0]).execute(read_command)
+            # if read_command[0] == 'exit':
+            #     break
+            # Command(read_command[0]).execute(read_command)
+            Command(read_command).execute(read_parameter)
+
+

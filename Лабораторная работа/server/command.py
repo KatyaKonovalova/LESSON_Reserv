@@ -1,3 +1,5 @@
+import sys
+
 from organization import *
 
 
@@ -46,7 +48,7 @@ class AddElement:
 
 class UpdateID:
     # обновить значение элемента коллекции, id которого равен заданному
-    # по id достать найти элемент и изменить значение характеристики
+
     pass
 
 
@@ -67,7 +69,8 @@ class RemoveByID:
 
     @staticmethod
     def execute(*args):
-        id = int(args[0])
+        print('args[0]', args[0][0])
+        id = int(args[0][0])
         # print('id', id)
         # print('аргумент', *args)
         print(Organization.objects())
@@ -80,37 +83,59 @@ class RemoveByID:
 
 class Clear:
     # очистить коллекцию
-    pass
+    @staticmethod
+    def execute(*args):
+        print(Organization.objects())
+        Organization.objects()[:] = []
+        print(Organization.objects())
 
 
 class Save:
     # сохранить коллекцию в файл
-    pass
+    @staticmethod
+    def execute(*args):
+        with open('elements.txt', 'w') as file:
+            file.writelines(f'{elem}\n' for elem in Organization.objects())
+            print('Коллекция сохранена в файл "elements.txt"')
 
 
 class ExecuteScriptFileName:
     # считать и исполнить скрипт из указанного файла.
     # В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
+    # пользователь вводит команды
+    # команды сохраняются в файл
+    # считываются из файла и выполняются по одной за раз
     pass
 
 
 class Exit:
     # завершить программу (без сохранения в файл)
+    @staticmethod
+    def execute(*args):
+        sys.exit()
+
     pass
 
 
 class Head:
     # вывести первый элемент коллекции
-    pass
+    @staticmethod
+    def execute(*args):
+        print(Organization.objects()[0])
 
 
 class RemoveGreater:
     # удалить из коллекции все элементы, превышающие заданный
+    # два параметра 1. тот по которому будут сравнивать, 2. его значение
+    @staticmethod
+    def execute(*args):
+        print(*args)
     pass
 
 
 class History:
     # вывести последние 14 команд (без их аргументов)
+    # каждая введенная в консоль команда должна сохраняться в отдельный файл
     pass
 
 
@@ -135,7 +160,9 @@ class SimpleCommand:
                 'info': Info,
                 'show': Show,
                 'clear': Clear,
-                'exit': Exit}
+                'save': Save,
+                'exit': Exit,
+                'head': Head, }
 
     def __init__(self, name):
         # print('3', name)
@@ -147,9 +174,11 @@ class SimpleCommand:
 
 class CompositeCommand:
     commands = {'add': AddElement,
-                'remove': RemoveByID, }
+                'remove by id': RemoveByID,
+                'remove greater': RemoveGreater,}
 
     def __init__(self, name):
+        # print('4', name)
         self.command = CompositeCommand.commands[name]
 
     # def __read(self):
@@ -164,7 +193,9 @@ class CompositeCommand:
 
 class Command:
     def __init__(self, name):
-        if name in CompositeCommand.commands:
+        self.name = name
+        # print('5', self.name)
+        if self.name in CompositeCommand.commands:
             self.__command = CompositeCommand
         else:
             self.__command = SimpleCommand
@@ -177,6 +208,14 @@ class Command:
     # Работает CompositeCommand и SimpleCommand
 
     def execute(self, *args):
-        # print('*', *args[0][1:])
+        # print(*args)
+        # print('*', *args)
         # print('args[0]', args[0][0])
-        self.__command(args[0][0]).execute(*args[0][1:])
+        # self.__command(args[0][0]).execute(*args[0][1:])
+        # self.__command(self.name).execute(*args[0][1:])
+        if args[0] == []:
+            self.__command(self.name).execute()
+        else:
+            self.__command(self.name).execute(*args)
+
+        # Command(read_command[read_command.find(",") + 1:]).execute(read_command)
