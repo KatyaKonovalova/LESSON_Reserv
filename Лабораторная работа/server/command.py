@@ -56,17 +56,6 @@ class RemoveByID:
     # удалить элемент из коллекции по его id
     # найти элемент по id и удалить его из списка
 
-    # def __init__(self, *args):
-    #     self.id = args[0]
-
-    # def execute(self):
-    #     print('аргумент', self.id)
-    #     print(Organization.objects())
-    #     for elem in Organization.objects():
-    #         if elem.id == self.id:
-    #             Organization.objects().pop(elem.id - 1)
-    #         print(Organization.objects())
-
     @staticmethod
     def execute(*args):
         # print('args[0]', *args[0])
@@ -127,6 +116,7 @@ class Head:
 
 class RemoveGreater:
     # удалить из коллекции все элементы, превышающие заданный
+    # ПРОБЛЕМЫ С parameter, И С ТИПОМ ДАННЫХ ТОЖЕ НЕ ТО
     @staticmethod
     def execute(*args):
         print(*args, type(*args))
@@ -159,16 +149,38 @@ class MinByFullName:
         print(elem.id)
 
 
-
 class PrintFieldDescendingAnnualTurnover:
     # вывести значения поля annualTurnover всех элементов в порядке убывания
-    pass
+    @staticmethod
+    def execute(*args):
+        an_tur = []
+        for elem in Organization.objects():
+            an_tur.append(elem.annual_turnover)
+        # ПОЧЕМУ НЕ СРАБОТАЛ МЕТОД SORT? ВЫВОДИЛ NONE
+        result = sorted(an_tur, reverse=True)
+        print(result)
 
 
 class PrintFieldDescendingPostalAddress:
     # вывести значения поля postalAddress всех элементов в порядке убывания
-    pass
+    @staticmethod
+    def execute(*args):
+        post_address = []
+        for elem in Organization.objects():
+            address = elem.postal_address.street + ' ' + elem.postal_address.town
+            post_address.append(address)
+        print(post_address)
+        # res = sorted(post_address, reverse=True)
+        res = post_address.sort(reverse=True)
+        # print(sorted(post_address, reverse=True))
+        print(res)
+        # ПОПРОБОВАТЬ СДЕЛАТЬ СЛОВАРЬ
 
+# names = ["Jessica", "Ben", "Carl", "Jackie", "Wendy"]
+#
+# print("Unsorted: ", names)
+# names.sort(key=len)
+# print("Sorted: ", names)
 
 class SimpleCommand:
     commands = {'help': Help,
@@ -178,7 +190,9 @@ class SimpleCommand:
                 'save': Save,
                 'exit': Exit,
                 'head': Head,
-                'min': MinByFullName, }
+                'min': MinByFullName,
+                'print annual turnover': PrintFieldDescendingAnnualTurnover,
+                'print postal address': PrintFieldDescendingPostalAddress, }
 
     def __init__(self, name):
         # print('3', name)

@@ -38,7 +38,8 @@ class Organization:
     # def __init__(self, name: str, coordinates: Coordinates, creation_date: datetime, annual_turnover: float,
     #              full_name: str, employees_count: int, type: OrganizationType, postal_address: Address
     #              ):
-    def __init__(self, name: str, full_name: str, employees_count: int, annual_turnover: float):
+    def __init__(self, name: str, full_name: str, employees_count: int, annual_turnover: float,
+                 postal_address: Address, ):
         self.id = Organization.__id
         Organization.__id += 1
         self.name = name
@@ -48,7 +49,7 @@ class Organization:
         self.full_name = full_name
         self.employees_count = employees_count
         # self.type = type
-        # self.postal_address = postal_address
+        self.postal_address = postal_address
         Organization.__objects.append(self)
 
     @staticmethod
@@ -72,10 +73,10 @@ class Organization:
 #         return str(self.__collection)
 
 
-org1 = Organization('1', 'Машиностроительный завод', 100, 1.1)
-org2 = Organization('2', 'Кондитерская', 5, 2.2)
-org3 = Organization('3', 'Столовая', 10, 3.3)
-org4 = Organization('4', 'Ресторанный дворик', 50, 4.4)
+org1 = Organization('1', 'Машиностроительный завод', 100, 1.1, Address('Ленина', 'Санкт-Петербург'))
+org2 = Organization('2', 'Кондитерская', 5, 2.2, Address('Цветочная', 'Москва'))
+org3 = Organization('3', 'Столовая', 10, 3.3, Address('Зайцева', 'Нижний Новгород'))
+org4 = Organization('4', 'Ресторанный дворик', 50, 4.4, Address('Северная Застава', 'Североморск'))
 # print(org1.id, org2.id)
 # print(Organization.objects())
 
