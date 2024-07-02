@@ -141,11 +141,6 @@ class RemoveGreater:
                     Organization.objects().remove(elem)
 
 
-        # print(*args[args.find(",") + 1:])
-        # print(*args[0][0])
-    pass
-
-
 class History:
     # вывести последние 14 команд (без их аргументов)
     # каждая введенная в консоль команда должна сохраняться в отдельный файл
@@ -154,8 +149,14 @@ class History:
 
 class MinByFullName:
     #  вывести любой объект из коллекции, значение поля fullName которого является минимальным
-    # min(len(...[full_name]
-    pass
+    # МНЕ НЕ НРАВИТСЯ ЗАДАВАТЬ ЗНАЧЕНИЕ value=100, ХОТЕЛОСЬ БЫ СРАВНИВАТЬ НАПРИМЕР С ПЕРВЫМ ОБЪЕКТОМ
+    @staticmethod
+    def execute(*args):
+        value = 100
+        for elem in Organization.objects():
+            if len(elem.full_name) < value:
+                value = len(elem.full_name)
+                print(elem.name)
 
 
 class PrintFieldDescendingAnnualTurnover:
@@ -175,7 +176,8 @@ class SimpleCommand:
                 'clear': Clear,
                 'save': Save,
                 'exit': Exit,
-                'head': Head, }
+                'head': Head,
+                'min': MinByFullName, }
 
     def __init__(self, name):
         # print('3', name)
@@ -188,7 +190,7 @@ class SimpleCommand:
 class CompositeCommand:
     commands = {'add': AddElement,
                 'remove by id': RemoveByID,
-                'remove greater': RemoveGreater,}
+                'remove greater': RemoveGreater, }
 
     def __init__(self, name):
         # print('4', name)
