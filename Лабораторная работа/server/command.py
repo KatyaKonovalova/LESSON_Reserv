@@ -172,19 +172,15 @@ class History:
     @staticmethod
     def execute(*args):
         with open('history.txt', 'r', encoding='utf-8') as file:
-            print(file.read())
+            print(file.read()[-1:])
 
 
 class MinByFullName:
     #  вывести любой объект из коллекции, значение поля fullName которого является минимальным
+    # НЕ ПОНИМАЮ КАК РАБОТАЕТ
     @staticmethod
     def execute(*args):
-        value = len(Organization.objects()[0].full_name)
-        # print(value)
-        for elem in Organization.objects():
-            if len(elem.full_name) < value:
-                value = len(elem.full_name)
-        print(elem.id)
+        print(min(Organization.objects(), key=lambda x: len(x.full_name)))
 
 
 class PrintFieldDescendingAnnualTurnover:
@@ -263,8 +259,8 @@ class Command:
 
     @staticmethod
     def save_command(command):
-        with open('history.txt', 'w', encoding='utf-8') as file:
-            file.write(command)
+        with open('history.txt', 'a', encoding='utf-8') as file:
+            file.write(f'{command}\n')
 
     def execute(self, *args):
         # print(*args)
