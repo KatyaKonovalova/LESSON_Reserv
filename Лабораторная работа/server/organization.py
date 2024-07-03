@@ -13,6 +13,9 @@ class Address:
         self.street = street
         self.town = town
 
+    def __str__(self):
+        return f'Адрес: улица {self.street}, город {self.town}'
+
 
 class Location:
     def __init__(self, x: float, y: float, z: float, name: str):
@@ -64,20 +67,18 @@ class Organization:
     def id():
         return Organization.__id
 
-
-# class CollectionManager:
-#     def __init__(self):
-#         self.__collection = Organization.objects()
-#
-#     def elem(self):
-#         return str(self.__collection)
+    def __str__(self):
+        # Почему, если вместо self.id написать Organization.id(), то выводится 5 у всех объектов?
+        return (f'Organization(id = {self.id}, name = {self.name}, full_name = {self.full_name}, '
+                f'employees_count = {self.employees_count}, annual_turnover = {self.annual_turnover}, '
+                f'postal_address = {self.postal_address})')
 
 
 org1 = Organization('1', 'Машиностроительный завод', 100, 1.1, Address('Ленина', 'Санкт-Петербург'))
 org2 = Organization('2', 'Кондитерская', 5, 2.2, Address('Цветочная', 'Москва'))
 org3 = Organization('3', 'Столовая', 10, 3.3, Address('Зайцева', 'Нижний Новгород'))
 org4 = Organization('4', 'Ресторанный дворик', 50, 4.4, Address('Северная Застава', 'Североморск'))
-# print(org1.id, org2.id)
+print(org1)
 # print(Organization.objects())
 
 # s = "remove by id, 1, j, 8"

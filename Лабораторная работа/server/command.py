@@ -27,30 +27,58 @@ class Info:
 class Show:
     # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
 
+    # @staticmethod
+    # def execute(*args):
+    #     for elem in Organization.objects():
+    #         print(elem)
+
     @staticmethod
     def execute(*args):
-        for elem in Organization.objects():
-            print(elem.name)
+        # Почему с encoding='utf-8' вылезает ошибка?
+        with open('elements.txt', 'r', encoding='utf-8') as file:
+            print(file.read())
 
 
-class AddElement:
+class AddElement(Organization):
     # добавить новый элемент в коллекцию
-    # attributes = ['name', 'description', 'organization']
+    def __init__(self, *args):
+        super().__init__(*args)
+        print(args)
 
     # чтобы добавить новый элемент в коллекцию надо создать объект класса Organization
 
-    def new_object(*args):
-        new_object = Organization(*args)
-
     @staticmethod
     def execute(*args):
-        pass
+        new_object = Organization(*args)
+        print(new_object)
+        print(new_object.name)
 
+
+# '5', 'Фабрика', 70, 5.5, Address('Волковская', 'Саратов')
+# 5, Фабрика, 70, 5.5, Address('Волковская', 'Саратов')
 
 class UpdateID:
     # обновить значение элемента коллекции, id которого равен заданному
+    # надо передавать параметр, значение которого хотим изменить и номер id
+    @staticmethod
+    def execute(*args):
+        id = int(*args[0][2])
+        print(Organization.objects())
+        # print('объект', Organization.objects()[id])
+        print(args[0][0])
+        parameter = args[0][0]
+        value = args[0][1]
+        for elem in Organization.objects():
+            if elem.id == id:
+                old_elem = getattr(elem, parameter)
+                print(old_elem)
+                new_elem = setattr(elem, parameter, value)
+                new_el = getattr(elem, parameter)
+                print(new_el)
 
-    pass
+
+
+# getattr(object, name, default)
 
 
 class RemoveByID:
@@ -84,7 +112,7 @@ class Save:
     # сохранить коллекцию в файл
     @staticmethod
     def execute(*args):
-        with open('elements.txt', 'w') as file:
+        with open('elements.txt', 'w', encoding='utf-8') as file:
             file.writelines(f'{elem}\n' for elem in Organization.objects())
             print('Коллекция сохранена в файл "elements.txt"')
 
@@ -200,6 +228,7 @@ class SimpleCommand:
 
 class CompositeCommand:
     commands = {'add': AddElement,
+                'update id': UpdateID,
                 'remove by id': RemoveByID,
                 'remove greater': RemoveGreater, }
 
@@ -222,9 +251,9 @@ class Command:
             self.__command = SimpleCommand
 
     def execute(self, *args):
-        # print(*args)
-        # print('*', *args)
-        # print('args[0]', args[0][0])
+        print(*args)
+        print('*', *args)
+        print('args[0]', args[0])
         if args[0] == ['']:
             self.__command(self.name).execute()
         else:

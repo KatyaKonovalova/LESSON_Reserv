@@ -1,4 +1,4 @@
-<organization.Organization object at 0x000001C05A38D310>
-<organization.Organization object at 0x000001C05A38D340>
-<organization.Organization object at 0x000001C05A38D370>
-<organization.Organization object at 0x000001C05A38D3D0>
+Organization(id = 1, name = 1, full_name = Машиностроительный завод, employees_count = 100, annual_turnover = 1.1, postal_address = Адрес: улица Ленина, город Санкт-Петербург)
+Organization(id = 2, name = 2, full_name = Кондитерская, employees_count = 5, annual_turnover = 2.2, postal_address = Адрес: улица Цветочная, город Москва)
+Organization(id = 3, name = 3, full_name = Столовая, employees_count = 10, annual_turnover = 3.3, postal_address = Адрес: улица Зайцева, город Нижний Новгород)
+Organization(id = 4, name = 4, full_name = Ресторанный дворик, employees_count = 50, annual_turnover = 4.4, postal_address = Адрес: улица Северная Застава, город Североморск)
