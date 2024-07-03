@@ -168,8 +168,11 @@ class RemoveGreater:
 
 class History:
     # вывести последние 14 команд (без их аргументов)
-    # каждая введенная в консоль команда должна сохраняться в отдельный файл
-    pass
+
+    @staticmethod
+    def execute(*args):
+        with open('history.txt', 'r', encoding='utf-8') as file:
+            print(file.read())
 
 
 class MinByFullName:
@@ -221,6 +224,7 @@ class SimpleCommand:
                 'save': Save,
                 'exit': Exit,
                 'head': Head,
+                'history': History,
                 'min': MinByFullName,
                 'print annual turnover': PrintFieldDescendingAnnualTurnover,
                 'print postal address': PrintFieldDescendingPostalAddress, }
@@ -257,10 +261,15 @@ class Command:
         else:
             self.__command = SimpleCommand
 
+    @staticmethod
+    def save_command(command):
+        with open('history.txt', 'w', encoding='utf-8') as file:
+            file.write(command)
+
     def execute(self, *args):
-        print(*args)
-        print('*', *args)
-        print('args[0]', args[0])
+        # print(*args)
+        # print('*', *args)
+        # print('args[0]', args[0])
         if args[0] == ['']:
             self.__command(self.name).execute()
         else:

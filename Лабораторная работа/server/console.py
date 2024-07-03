@@ -3,6 +3,7 @@ from command import Command
 
 
 class Console:
+
     @staticmethod
     def start():
         while True:
@@ -18,6 +19,5 @@ class Console:
             # if read_command[0] == 'exit':
             #     break
             # Command(read_command[0]).execute(read_command)
+            Command(read_command).save_command(read_command)
             Command(read_command).execute(read_parameter)
-
-
