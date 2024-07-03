@@ -26,7 +26,6 @@ class Info:
 
 class ShowSaveFile:
     # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
-    # ПРОДУМАТЬ МОМЕНТ С СОХРАНЕНИЕМ
 
     @staticmethod
     def execute(*args):
@@ -217,7 +216,7 @@ class SimpleCommand:
     commands = {'help': Help,
                 'info': Info,
                 'show collection': ShowCollection,
-                'show save file': ShowSaveFile,
+                'show file': ShowSaveFile,
                 'clear': Clear,
                 'save': Save,
                 'exit': Exit,
