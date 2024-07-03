@@ -24,19 +24,25 @@ class Info:
               f'Количество элементов: {len(Organization.objects())}')
 
 
-class Show:
+class ShowSaveFile:
     # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
-
-    # @staticmethod
-    # def execute(*args):
-    #     for elem in Organization.objects():
-    #         print(elem)
+    # ПРОДУМАТЬ МОМЕНТ С СОХРАНЕНИЕМ
 
     @staticmethod
     def execute(*args):
         # Почему с encoding='utf-8' вылезает ошибка?
         with open('elements.txt', 'r', encoding='utf-8') as file:
             print(file.read())
+
+
+class ShowCollection:
+    # вывести в стандартный поток вывода все элементы коллекции в строковом представлении
+    # ПРОДУМАТЬ МОМЕНТ С СОХРАНЕНИЕМ
+
+    @staticmethod
+    def execute(*args):
+        for elem in Organization.objects():
+            print(elem)
 
 
 class AddElement(Organization):
@@ -60,6 +66,7 @@ class AddElement(Organization):
 class UpdateID:
     # обновить значение элемента коллекции, id которого равен заданному
     # надо передавать параметр, значение которого хотим изменить и номер id
+    # что делать с параметрами, у которых внутри несколько значений, вроде адреса и координат?
     @staticmethod
     def execute(*args):
         id = int(*args[0][2])
@@ -72,10 +79,9 @@ class UpdateID:
             if elem.id == id:
                 old_elem = getattr(elem, parameter)
                 print(old_elem)
-                new_elem = setattr(elem, parameter, value)
+                setattr(elem, parameter, value)
                 new_el = getattr(elem, parameter)
                 print(new_el)
-
 
 
 # getattr(object, name, default)
@@ -152,11 +158,12 @@ class RemoveGreater:
         parameter = args[0][0]
         value = int(args[0][1])
         for elem in Organization.objects():
-            if isinstance(elem.parameter, str):
-                if len(elem.parameter) > value:
+            use_elem = getattr(elem, parameter)
+            if isinstance(use_elem, str):
+                if len(use_elem) > value:
                     Organization.objects().remove(elem)
-            elif isinstance(elem.parameter, int):
-                if elem.parameter > value:
+            elif isinstance(use_elem, int or float):
+                if use_elem > value:
                     Organization.objects().remove(elem)
 
 
@@ -209,7 +216,8 @@ class PrintFieldDescendingPostalAddress:
 class SimpleCommand:
     commands = {'help': Help,
                 'info': Info,
-                'show': Show,
+                'show collection': ShowCollection,
+                'show save file': ShowSaveFile,
                 'clear': Clear,
                 'save': Save,
                 'exit': Exit,
